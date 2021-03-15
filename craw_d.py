@@ -8,6 +8,7 @@ import warnings
 import json
 from fake_useragent import UserAgent
 import argparse
+import sys	
 
 parser = argparse.ArgumentParser() # defines the parser
 parser.add_argument('-p', help='The proxy port', dest='proxy',default='127.0.0.1:7777')
@@ -29,8 +30,8 @@ def get_random_headers():
 
 def main(url,pro):
 	target = url
-	cmd = ("./crawlergo -c chrome-linux/chrome -t 20 -f smart --fuzz-path --custom-headers "+json.dumps(get_random_headers())+" --push-to-proxy http://"+pro+"/ --push-pool-max 10 --output-mode json"+target)
-	rsp = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,shell=True)
+	cmd = ["./crawlergo", "-c", "/root/tools/chrome-linux/chrome","-t", "20","-f","smart","--fuzz-path","--custom-headers",json.dumps(get_random_headers()), "--push-to-proxy", "http://"+pro+"/", "--push-pool-max", "10","--output-mode", "json" , target]
+	rsp = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 	output, error = rsp.communicate()
 	try:
 		result = simplejson.loads(output.decode().split("--[Mission Complete]--")[1])
