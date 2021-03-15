@@ -29,21 +29,27 @@ def get_random_headers():
 
 def main(url,pro):
 	target = url
-	cmd = ["./crawlergo", "-c", "chrome-linux/chrome","-t", "20","-f","smart","--fuzz-path","--custom-headers",json.dumps(get_random_headers()), "--push-to-proxy", "http://"+pro+"/", "--push-pool-max", "10","--output-mode", "json" , target]
-	rsp = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	cmd = ("./crawlergo -c chrome-linux/chrome -t 20 -f smart --fuzz-path --custom-headers"+json.dumps(get_random_headers())+"--push-to-proxy", "http://"+pro+"/ --push-pool-max 10 --output-mode json"+target)
+	rsp = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,shell=True
 	output, error = rsp.communicate()
 	try:
 		result = simplejson.loads(output.decode().split("--[Mission Complete]--")[1])
 	except:
 		return
 	print(result)
-
+def judge(url):
+	if proxy2.strip()=='':
+		main(url,proxy)
+	else:
+		main(url,proxy)
+		main(url,proxy2)
 
 
 if __name__ == '__main__':
-	if proxy2.strip()=='':
-		main(target_url,proxy)
+	if target_url is None:
+		Servers = sys.stdin.read().split("\n")
+		for server in Servers:
+			server = server.split(" ")
+			judge(server[0])
 	else:
-		main(target_url,proxy)
-		main(target_url,proxy2)
-	
+		judge(target_url)
