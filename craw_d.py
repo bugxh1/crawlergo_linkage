@@ -30,7 +30,7 @@ def get_random_headers():
 def main(url,pro):
 	target = url
 	cmd = ("./crawlergo -c chrome-linux/chrome -t 20 -f smart --fuzz-path --custom-headers "+json.dumps(get_random_headers())+" --push-to-proxy http://"+pro+"/ --push-pool-max 10 --output-mode json"+target)
-	rsp = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,shell=True
+	rsp = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,shell=True)
 	output, error = rsp.communicate()
 	try:
 		result = simplejson.loads(output.decode().split("--[Mission Complete]--")[1])
