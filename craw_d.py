@@ -18,8 +18,7 @@ args = parser.parse_args()
 proxy = args.proxy
 proxy2 = args.proxy2
 target_url = args.target_url
-ua = UserAgent(use_cache_server=False)
-ua = UserAgent()
+ua = UserAgent(verify_ssl=False)
 
 warnings.filterwarnings(action='ignore')
 
