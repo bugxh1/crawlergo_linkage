@@ -19,6 +19,7 @@ proxy = args.proxy
 proxy2 = args.proxy2
 target_url = args.target_url
 ua = UserAgent(verify_ssl=False)
+ua = UserAgent()
 
 warnings.filterwarnings(action='ignore')
 
